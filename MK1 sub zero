@@ -1,0 +1,79 @@
+// Sub-Zero Advanced Combo MK1 (PS4 + Xbox)
+// Trigger: D-Pad UP (PS4_UP / XB1_UP)
+
+main {
+    if(get_val(PS4_UP) || get_val(XB1_UP)) {
+        combo_run(SubZeroCombo);
+    }
+}
+
+combo SubZeroCombo {
+    // B2, B2 (Back + 2 twice)
+    set_val(PS4_LEFT, 100); set_val(XB1_LEFT, 100);
+    set_val(PS4_TRIANGLE, 100); set_val(XB1_Y, 100);
+    wait(60);
+    set_val(PS4_TRIANGLE, 0); set_val(XB1_Y, 0);
+    wait(40);
+    set_val(PS4_TRIANGLE, 100); set_val(XB1_Y, 100);
+    wait(60);
+    set_val(PS4_TRIANGLE, 0); set_val(XB1_Y, 0);
+    set_val(PS4_LEFT, 0); set_val(XB1_LEFT, 0);
+    wait(100);
+
+    // J21 (Jump → 2 → 1) using D-Pad UP as jump
+    set_val(PS4_UP, 100); set_val(XB1_UP, 100);
+    wait(200); // jump time
+    set_val(PS4_TRIANGLE, 100); set_val(XB1_Y, 100);
+    wait(50);
+    set_val(PS4_TRIANGLE, 0); set_val(XB1_Y, 0);
+    wait(50);
+    set_val(PS4_SQUARE, 100); set_val(XB1_X, 100);
+    wait(50);
+    set_val(PS4_SQUARE, 0); set_val(XB1_X, 0);
+    wait(100);
+
+    // DB1 (Down + Back + 1)
+    set_val(PS4_DOWN, 100); set_val(XB1_DOWN, 100);
+    wait(60);
+    set_val(PS4_LEFT, 100); set_val(XB1_LEFT, 100);
+    wait(60);
+    set_val(PS4_SQUARE, 100); set_val(XB1_X, 100);
+    wait(60);
+    set_val(PS4_SQUARE, 0); set_val(XB1_X, 0);
+    set_val(PS4_DOWN, 0); set_val(PS4_LEFT, 0);
+    set_val(XB1_DOWN, 0); set_val(XB1_LEFT, 0);
+    wait(100);
+
+    // J2 (Jump + 2)
+    set_val(PS4_UP, 100); set_val(XB1_UP, 100);
+    wait(200);
+    set_val(PS4_TRIANGLE, 100); set_val(XB1_Y, 100);
+    wait(60);
+    set_val(PS4_TRIANGLE, 0); set_val(XB1_Y, 0);
+    wait(100);
+
+    // J12 (Jump → 1 → 2)
+    set_val(PS4_UP, 100); set_val(XB1_UP, 100);
+    wait(200);
+    set_val(PS4_SQUARE, 100); set_val(XB1_X, 100);
+    wait(40);
+    set_val(PS4_SQUARE, 0); set_val(XB1_X, 0);
+    wait(40);
+    set_val(PS4_TRIANGLE, 100); set_val(XB1_Y, 100);
+    wait(40);
+    set_val(PS4_TRIANGLE, 0); set_val(XB1_Y, 0);
+    wait(100);
+
+    // 3~BF3 (Hold 3, then Forward Back 3)
+    set_val(PS4_CIRCLE, 100); set_val(XB1_B, 100);
+    wait(100); // hold 3
+    set_val(PS4_RIGHT, 100); set_val(XB1_RIGHT, 100);
+    wait(60);
+    set_val(PS4_RIGHT, 0); set_val(XB1_RIGHT, 0);
+    wait(40);
+    set_val(PS4_LEFT, 100); set_val(XB1_LEFT, 100);
+    wait(60);
+    set_val(PS4_LEFT, 0); set_val(XB1_LEFT, 0);
+    wait(40);
+    set_val(PS4_CIRCLE, 0); set_val(XB1_B, 0);
+}
