@@ -1,0 +1,80 @@
+// Skull and Bones Multi-Script for Xbox Series X|S and PS5
+
+bool auto_sail = FALSE;
+
+main {
+
+    // Toggle Auto Sail with LS Click (L3)
+    if(event_press(XB1_L3) || event_press(PS4_L3)) {
+        auto_sail = !auto_sail;
+    }
+
+    // AUTO SAIL
+    if(auto_sail) {
+        set_val(XB1_LY, -100); // forward
+        set_val(PS4_LY, -100); // forward
+    }
+
+    // AUTO FIRE (Cannons/Rockets)
+    if(get_val(XB1_RT) > 90 || get_val(PS4_R2) > 90) {
+        combo_run(autoFire);
+    }
+
+    // QUICK BRACE + FIRE (R1 / RB)
+    if(event_press(XB1_RB) || event_press(PS4_R1)) {
+        combo_run(quickBraceFire);
+    }
+
+    // AUTO LOOT (Hold X / Square)
+    if(get_val(XB1_X) || get_val(PS4_SQUARE)) {
+        combo_run(autoLoot);
+    }
+
+    // ANTI-RECOIL (while aiming)
+    if(get_val(XB1_LT) > 90 || get_val(PS4_L2) > 90) {
+        antiRecoil();
+    }
+}
+
+// COMBOS
+
+combo autoFire {
+    set_val(XB1_RT, 100);
+    set_val(PS4_R2, 100);
+    wait(40);
+    set_val(XB1_RT, 0);
+    set_val(PS4_R2, 0);
+    wait(40);
+    set_val(XB1_RT, 100);
+    set_val(PS4_R2, 100);
+    wait(40);
+    set_val(XB1_RT, 0);
+    set_val(PS4_R2, 0);
+}
+
+combo quickBraceFire {
+    // Brace (LB / L1)
+    set_val(XB1_LB, 100); set_val(PS4_L1, 100);
+    wait(200);
+    set_val(XB1_LB, 0); set_val(PS4_L1, 0);
+    wait(100);
+    // Fire
+    set_val(XB1_RT, 100); set_val(PS4_R2, 100);
+    wait(100);
+    set_val(XB1_RT, 0); set_val(PS4_R2, 0);
+}
+
+combo autoLoot {
+    set_val(XB1_X, 100); set_val(PS4_SQUARE, 100);
+    wait(100);
+    set_val(XB1_X, 0); set_val(PS4_SQUARE, 0);
+    wait(600);
+}
+
+// Anti-Recoil: Gentle pull down
+function antiRecoil() {
+    // Adjust values here to fine-tune
+    anti_r = 12;
+    set_val(XB1_RY, anti_r * -1);
+    set_val(PS4_RY, anti_r * -1);
+}
