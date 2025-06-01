@@ -1,0 +1,73 @@
+// Fortnite No Build Mode Script - PS5 + Xbox
+
+bool aim_abuse_enabled = TRUE;
+
+main {
+
+    // === AUTO SPRINT ===
+    if(get_val(PS4_LY) < -20 || get_val(XB1_LY) < -20) {
+        set_val(PS4_L3, 100);
+        set_val(XB1_L3, 100);
+    }
+
+    // === RAPID FIRE ===
+    if(get_val(PS4_R2) > 90 || get_val(XB1_RT) > 90) {
+        combo_run(rapidFire);
+    }
+
+    // === ANTI-RECOIL ===
+    if(get_val(PS4_L2) > 90 || get_val(XB1_LT) > 90) {
+        antiRecoil(12); // 12 is the strength (adjust if needed)
+    }
+
+    // === AIM ABUSE (Soft Pull) ===
+    if(aim_abuse_enabled && (get_val(PS4_L2) > 90 || get_val(XB1_LT) > 90)) {
+        combo_run(aimAbuse);
+    }
+
+    // === SLIDE CANCEL (Circle / B Tap) ===
+    if(event_press(PS4_CIRCLE) || event_press(XB1_B)) {
+        combo_run(slideCancel);
+    }
+
+    // === TOGGLE AIM ABUSE WITH L3 + R3 ===
+    if(event_press(PS4_L3) && event_press(PS4_R3)) {
+        aim_abuse_enabled = !aim_abuse_enabled;
+    }
+    if(event_press(XB1_L3) && event_press(XB1_RS)) {
+        aim_abuse_enabled = !aim_abuse_enabled;
+    }
+}
+
+// COMBOS
+
+combo rapidFire {
+    set_val(PS4_R2, 100); set_val(XB1_RT, 100);
+    wait(40);
+    set_val(PS4_R2, 0); set_val(XB1_RT, 0);
+    wait(40);
+}
+
+combo slideCancel {
+    // Crouch → Stand → Crouch quickly
+    set_val(PS4_CIRCLE, 100); set_val(XB1_B, 100);
+    wait(120);
+    set_val(PS4_CIRCLE, 0); set_val(XB1_B, 0);
+    wait(80);
+    set_val(PS4_CIRCLE, 100); set_val(XB1_B, 100);
+    wait(60);
+    set_val(PS4_CIRCLE, 0); set_val(XB1_B, 0);
+}
+
+combo aimAbuse {
+    set_val(PS4_L2, 0); set_val(XB1_LT, 0);
+    wait(20);
+    set_val(PS4_L2, 100); set_val(XB1_LT, 100);
+    wait(20);
+}
+
+// FUNCTION: Anti-Recoil
+function antiRecoil(strength) {
+    set_val(PS4_RY, strength * -1);
+    set_val(XB1_RY, strength * -1);
+}
