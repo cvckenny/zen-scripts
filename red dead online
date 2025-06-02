@@ -1,0 +1,131 @@
+/*
+  Custom Xbox Script
+  Features:
+  - Auto Headshot mode (for repeaters/pistols)
+  - Sniper rifle mode with toggleable firing modes
+  - LB hold spams LB + RB buttons automatically
+*/
+
+// === Constants ===
+define TRUE  1;
+define FALSE 0;
+
+// === Global variables ===
+int sniperMode = 0;         // Sniper firing mode toggle
+int headshotMode = 0;       // Auto headshot toggle
+int autoHeadshotActive = 0;
+int sniperActive = 0;
+int lbPressed = 0;
+int rtPressed = 0;
+
+int waitTime = 100;         // Adjustable wait timer for combos
+
+// === Main Loop ===
+main {
+
+    // === LB Spam: hold LB to spam LB + RB ===
+    if (get_val(XB1_LB)) {
+        set_val(XB1_LB, 100);
+        set_val(XB1_RB, 100);
+    } else {
+        set_val(XB1_LB, 0);
+        set_val(XB1_RB, 0);
+    }
+
+    // === Sniper Rifle Mode Logic ===
+    if (get_val(XB1_LT)) {
+        sniperActive = TRUE;
+
+        // Toggle sniper mode with right stick press
+        if (event_release(XB1_RS)) {
+            sniperMode = (sniperMode + 1) % 2; // Toggle between 0 and 1
+        }
+
+        // Rapid fire in sniper mode
+        if (sniperMode == 1) {
+            if (!rtPressed && get_val(XB1_RT)) {
+                rtPressed = TRUE;
+                combo_run(rapidFire);
+            }
+        } else {
+            if (get_val(XB1_RT) && get_ptime(XB1_RT) > 350) {
+                set_val(XB1_RT, 0);
+                combo_run(hipFire);
+            }
+        }
+    } else {
+        sniperActive = FALSE;
+        rtPressed = FALSE;
+        set_val(XB1_RT, 0);
+    }
+
+    // === Auto Headshot Mode Logic ===
+    if (!sniperActive && get_val(XB1_LT)) {
+
+        autoHeadshotActive = TRUE;
+
+        // Toggle headshot mode with right stick press
+        if (event_release(XB1_RS)) {
+            headshotMode = (headshotMode + 1) % 2; // Toggle 0 or 1
+        }
+
+        // Auto headshot combos depending on mode
+        if (headshotMode == 0) {
+            combo_run(longDistanceShot);
+            combo_run(rsPress);
+        } else {
+            combo_run(middleDistanceShot);
+            combo_run(rsPress);
+        }
+    } else {
+        autoHeadshotActive = FALSE;
+        combo_stop(longDistanceShot);
+        combo_stop(middleDistanceShot);
+        combo_stop(rsPress);
+    }
+
+}
+
+// === Combos ===
+
+// Rapid Fire for Sniper Mode
+combo rapidFire {
+    set_val(XB1_RT, 100);
+    wait(40);
+    set_val(XB1_RT, 0);
+    wait(100);
+}
+
+// Hip Fire (non-sniper rapid fire)
+combo hipFire {
+    set_val(XB1_LT, 100);
+    wait(20);
+    set_val(XB1_RT, 100);
+    wait(40);
+    set_val(XB1_LT, 0);
+    set_val(XB1_RT, 0);
+    wait(100);
+}
+
+// RS (Right Stick) Press used in headshot combos
+combo rsPress {
+    wait(waitTime);
+    set_val(XB1_RS, 100);
+    wait(100);
+    set_val(XB1_RS, 0);
+    wait(100);
+}
+
+// Long Distance Headshot Combo
+combo longDistanceShot {
+    set_val(XB1_RY, -100);
+    set_val(XB1_RX, -30);
+    wait(140);
+}
+
+// Middle Distance Headshot Combo
+combo middleDistanceShot {
+    set_val(XB1_RY, -100);
+    set_val(XB1_RX, -15);
+    wait(100);
+}
