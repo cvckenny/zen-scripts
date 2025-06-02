@@ -1,0 +1,69 @@
+// Raiden Combo Set - MK1 (D-Pad UP & LEFT)
+
+main {
+    // UP: 2, 4, 2 → BF3
+    if(event_press(PS4_UP) || event_press(XB1_UP)) {
+        combo_run(Raiden_Combo_Up);
+    }
+
+    // LEFT: 2, 4, 2 → BF3
+    if(event_press(PS4_LEFT) || event_press(XB1_LEFT)) {
+        combo_run(Raiden_Combo_Left);
+    }
+}
+
+// === D-Pad UP: 2, 4, 2 → BF3 ===
+combo Raiden_Combo_Up {
+    // 2
+    set_val(PS4_TRIANGLE, 100); set_val(XB1_Y, 100);
+    wait(60); set_val(PS4_TRIANGLE, 0); set_val(XB1_Y, 0);
+    wait(40);
+
+    // 4
+    set_val(PS4_CIRCLE, 100); set_val(XB1_B, 100);
+    wait(60); set_val(PS4_CIRCLE, 0); set_val(XB1_B, 0);
+    wait(40);
+
+    // 2
+    set_val(PS4_TRIANGLE, 100); set_val(XB1_Y, 100);
+    wait(60); set_val(PS4_TRIANGLE, 0); set_val(XB1_Y, 0);
+    wait(60);
+
+    // BF3 → ← + Cross (A)
+    set_val(PS4_RIGHT, 100); set_val(XB1_RIGHT, 100);
+    wait(30); set_val(PS4_RIGHT, 0); set_val(XB1_RIGHT, 0);
+    wait(30);
+    set_val(PS4_LEFT, 100); set_val(XB1_LEFT, 100);
+    wait(30); set_val(PS4_LEFT, 0); set_val(XB1_LEFT, 0);
+    wait(30);
+    set_val(PS4_CROSS, 100); set_val(XB1_A, 100);
+    wait(70); set_val(PS4_CROSS, 0); set_val(XB1_A, 0);
+}
+
+// === D-Pad LEFT: 2, 4, 2 → BF3 ===
+combo Raiden_Combo_Left {
+    // 2
+    set_val(PS4_TRIANGLE, 100); set_val(XB1_Y, 100);
+    wait(60); set_val(PS4_TRIANGLE, 0); set_val(XB1_Y, 0);
+    wait(40);
+
+    // 4
+    set_val(PS4_CIRCLE, 100); set_val(XB1_B, 100);
+    wait(60); set_val(PS4_CIRCLE, 0); set_val(XB1_B, 0);
+    wait(40);
+
+    // 2
+    set_val(PS4_TRIANGLE, 100); set_val(XB1_Y, 100);
+    wait(60); set_val(PS4_TRIANGLE, 0); set_val(XB1_Y, 0);
+    wait(60);
+
+    // BF3 → ← + Cross (A)
+    set_val(PS4_RIGHT, 100); set_val(XB1_RIGHT, 100);
+    wait(30); set_val(PS4_RIGHT, 0); set_val(XB1_RIGHT, 0);
+    wait(30);
+    set_val(PS4_LEFT, 100); set_val(XB1_LEFT, 100);
+    wait(30); set_val(PS4_LEFT, 0); set_val(XB1_LEFT, 0);
+    wait(30);
+    set_val(PS4_CROSS, 100); set_val(XB1_A, 100);
+    wait(70); set_val(PS4_CROSS, 0); set_val(XB1_A, 0);
+}
