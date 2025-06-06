@@ -1,0 +1,58 @@
+// Call of Duty - Cronus Zen Script
+// Features: Anti-Recoil, Aim Assist, Rapid Fire
+
+// === MOD ENABLE FLAGS ===
+int anti_recoil = TRUE;
+int aim_assist = TRUE;
+int rapid_fire = TRUE;
+
+// === ADJUSTABLE VALUES ===
+int recoil_vert = 30;     // Vertical recoil compensation
+int recoil_horz = 0;      // Horizontal adjustment
+int assist_strength = 18; // Aim Assist strength
+int assist_delay = 20;    // Aim Assist delay
+int rf_hold = 30;         // Rapid Fire press
+int rf_rest = 20;         // Rapid Fire release
+
+// === BUTTON MAPPING ===
+int fire_button;
+int ads_button;
+
+init {
+    fire_button = BUTTON_RT;
+    ads_button = BUTTON_LT;
+}
+
+// === MAIN LOOP ===
+main {
+    // === AIM ASSIST ===
+    if(aim_assist && get_val(ads_button)) {
+        combo_run(AimAssist);
+    }
+
+    // === ANTI-RECOIL ===
+    if(anti_recoil && get_val(fire_button) && get_val(ads_button)) {
+        set_val(STICK_2_Y, get_val(STICK_2_Y) + recoil_vert);
+        set_val(STICK_2_X, get_val(STICK_2_X) + recoil_horz);
+    }
+
+    // === RAPID FIRE ===
+    if(rapid_fire && get_val(fire_button) && !get_val(ads_button)) {
+        combo_run(RapidFire);
+    }
+}
+
+// === COMBOS ===
+combo AimAssist {
+    set_val(STICK_2_X, assist_strength);
+    wait(assist_delay);
+    set_val(STICK_2_X, -assist_strength);
+    wait(assist_delay);
+}
+
+combo RapidFire {
+    set_val(fire_button, 100);
+    wait(rf_hold);
+    set_val(fire_button, 0);
+    wait(rf_rest);
+}
