@@ -1,0 +1,43 @@
+// NBA 2K25 Cronus Zen Script
+// Automated green release + dribble moves
+
+// Button Mapping
+int shoot_button = BUTTON_X;
+int dribble_button = BUTTON_A;
+
+// Adjustable settings
+int green_timing = 500; // milliseconds
+int dribble_delay = 250;
+
+// Main Loop
+main {
+    // Auto green release
+    if (event_press(shoot_button)) {
+        combo_run(GreenRelease);
+    }
+
+    // Perform a fancy dribble move with A
+    if (event_press(dribble_button)) {
+        combo_run(DribbleCombo);
+    }
+}
+
+// Combo for green release
+// Holds down shoot then release at green
+combo GreenRelease {
+    set_val(shoot_button, 100);
+    wait(green_timing);
+    set_val(shoot_button, 0);
+    wait(100);
+}
+
+// Combo for dribble move
+// Performs a crossover -> step back
+combo DribbleCombo {
+    set_val(STICK_1_X, 100);
+    wait(dribble_delay);
+    set_val(STICK_1_X, -100);
+    wait(dribble_delay);
+    set_val(STICK_1_X, 0);
+    wait(100);
+}
