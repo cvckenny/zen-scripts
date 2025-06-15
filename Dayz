@@ -1,0 +1,96 @@
+// DayZ Cronus Zen Script - All Features
+
+// Adjustable settings
+int rapid_fire = TRUE;
+int drop_shot = TRUE;
+int anti_recoil = TRUE;
+int auto_sprint = TRUE;
+
+// Rapid Fire
+int fire_delay = 100;
+
+// Anti-recoil
+int recoil_vert = 20;
+
+// Drop-shot
+int drop_delay = 500;
+
+// Auto-Sprint
+int sprint_button = BUTTON_LS;
+
+// Reload
+int reload_button = BUTTON_X;
+
+// Lean
+int lean_left_button = BUTTON_LB;
+int lean_right_button = BUTTON_RB;
+
+// Inventory
+int inventory_button = BUTTON_BACK;
+
+// Main Loop
+main {
+    // Rapid Fire
+    if (rapid_fire && get_val(BUTTON_RT) && !get_val(BUTTON_LT)) {
+        combo_run(RapidFire);
+    }
+
+    // Anti-recoil
+    if (anti_recoil && get_val(BUTTON_RT) && get_val(BUTTON_LT)) {
+        set_val(STICK_2_Y, get_val(STICK_2_Y) + recoil_vert);
+    }
+
+    // Drop-shot upon first shot
+    if (drop_shot && event_press(BUTTON_RT)) {
+        combo_run(DropShot);
+    }
+
+    // Auto-Sprint
+    if (auto_sprint) {
+        set_val(sprint_button, 100);
+    }
+
+    // Reload
+    if (event_press(reload_button)) {
+        combo_run(Reload);
+    }
+
+    // Lean Left/Right
+    if (get_val(lean_left_button)) {
+        set_val(STICK_1_X, -100);
+    }
+    if (get_val(lean_right_button)) {
+        set_val(STICK_1_X, 100);
+    }
+
+    // Inventory
+    if (event_press(inventory_button)) {
+        combo_run(Inventory);
+    }
+}
+
+// Combos
+combo RapidFire {
+    set_val(BUTTON_RT, 100);
+    wait(fire_delay);
+    set_val(BUTTON_RT, 0);
+    wait(fire_delay);
+}
+
+combo DropShot {
+    set_val(BUTTON_B, 100);
+    wait(drop_delay);
+    set_val(BUTTON_B, 0);
+}
+
+combo Reload {
+    set_val(reload_button, 100);
+    wait(500);
+    set_val(reload_button, 0);
+}
+
+combo Inventory {
+    set_val(inventory_button, 100);
+    wait(500);
+    set_val(inventory_button, 0);
+}
