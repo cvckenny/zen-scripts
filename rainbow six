@@ -1,0 +1,54 @@
+// Rainbow Six Siege Cronus Zen Script
+// Anti-recoil + aim assist + drop-shot (optional)
+
+int anti_recoil = TRUE;
+int aim_assist = TRUE;
+int drop_shot = TRUE;
+
+// Adjustable settings
+int recoil_vert = 20;
+int recoil_horz = 0;
+
+int aim_assist_strength = 12;
+int aim_assist_delay = 20;
+
+int drop_shot_delay = 500;
+
+// Button Mapping
+int fire_button = BUTTON_RT;
+int ads_button = BUTTON_LT;
+int crouch_button = BUTTON_B;
+
+// Main Loop
+main {
+    // Anti-recoil
+    if(anti_recoil && get_val(fire_button) && get_val(ads_button)) {
+        set_val(STICK_2_Y, get_val(STICK_2_Y) + recoil_vert);
+        set_val(STICK_2_X, get_val(STICK_2_X) + recoil_horz);
+    }
+
+    // Aim Assist
+    if(aim_assist && get_val(ads_button)) {
+        combo_run(AimAssist);
+    }
+
+    // Drop-shot
+    if(drop_shot && event_press(fire_button)) {
+        combo_run(Dropshot);
+    }
+}
+
+combo AimAssist {
+    set_val(STICK_2_X, aim_assist_strength);
+    wait(aim_assist_delay);
+    set_val(STICK_2_X, -aim_assist_strength);
+    wait(aim_assist_delay);
+    set_val(STICK_2_X, 0);
+}
+
+combo Dropshot {
+    set_val(crouch_button, 100);
+    wait(drop_shot_delay);
+    set_val(crouch_button, 0);
+    wait(100);
+}
