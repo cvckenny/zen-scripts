@@ -1,0 +1,75 @@
+// Phasmophobia Cronus Zen Script - All Features
+
+// Adjustable settings
+int sprint_button = BUTTON_LS;
+
+// Interaction
+int interact_button = BUTTON_X;
+
+// Flashlight
+int flashlight_button = BUTTON_Y;
+
+// Radio Push-to-talk
+int ptt_button = BUTTON_RB;
+
+// Crouch
+int crouch_button = BUTTON_B;
+
+// Item Swap
+int item_next_button = BUTTON_A;
+
+// Main Loop
+main {
+    // Auto-Sprint
+    set_val(sprint_button, 100);
+
+    // Interaction
+    if (event_press(interact_button)) {
+        combo_run(Interaction);
+    }
+
+    // Flashlight
+    if (event_press(flashlight_button)) {
+        combo_run(Flashlight);
+    }
+
+    // Push-to-talk
+    if (get_val(ptt_button)) {
+        set_val(ptt_button, 100);
+    }
+
+    // Crouch
+    if (event_press(crouch_button)) {
+        combo_run(Crouch);
+    }
+
+    // Item Swap
+    if (event_press(item_next_button)) {
+        combo_run(ItemSwap);
+    }
+}
+
+// Combos
+combo Interaction {
+    set_val(interact_button, 100);
+    wait(500);
+    set_val(interact_button, 0);
+}
+
+combo Flashlight {
+    set_val(flashlight_button, 100);
+    wait(500);
+    set_val(flashlight_button, 0);
+}
+
+combo Crouch {
+    set_val(crouch_button, 100);
+    wait(500);
+    set_val(crouch_button, 0);
+}
+
+combo ItemSwap {
+    set_val(item_next_button, 100);
+    wait(500);
+    set_val(item_next_button, 0);
+}
